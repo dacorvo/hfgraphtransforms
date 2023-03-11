@@ -8,6 +8,8 @@ from optimum.fx.optimization.transformations import (MergeLinears, FuseBiasInLin
 from evaluate import evaluator
 from datasets import load_dataset
 
+from transformations import RemoveDropout
+
 
 def infer_qa_model(model, tokenizer, inputs):
     """ Pass question answering inputs to a model
@@ -92,7 +94,7 @@ def main():
     model, tokenizer = setup_qa_model(model_path, args.device)
     question, text = "Which zelda game is my favorite?", "I cannot decide whether my favorite Zelda game is Ocarina of time or The Wind Waker."
     inputs = setup_qa_inputs(tokenizer, question, text, args.device)
-    transforms = [MergeLinears(), ChangeTrueDivToMulByInverse()]
+    transforms = [MergeLinears(), ChangeTrueDivToMulByInverse(), RemoveDropout()]
     if args.infer:
         print(text)
         print(question)

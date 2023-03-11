@@ -32,17 +32,19 @@ I quickly checked the corresponding unit test in optimum and it is supposed to w
 ### Apple M1 Max - CPU
 
 ````
-Base average inference: 595.8505375000001 ms
-Base+MergeLinears average inference: 595.4529500000001 ms
-Base+ChangeTrueDivToMulByInverse average inference: 592.7251125000001 ms
+Base average inference: 593.773 ms
+Base+MergeLinears average inference: 596.2796542 ms
+Base+ChangeTrueDivToMulByInverse average inference: 592.4733042 ms
+Base+RemoveDropout average inference: 591.7140582999998 ms
 ````
 
 ### Apple M1 Max - Metal Performance Shaders (MPS)
 
 ````
-Base average inference: 89.81496250000002 ms
-Base+MergeLinears average inference: 86.32195840000004 ms
-Base+ChangeTrueDivToMulByInverse average inference: 89.87490410000002 ms
+Base average inference: 91.04203330000001 ms
+Base+MergeLinears average inference: 86.93879999999999 ms
+Base+ChangeTrueDivToMulByInverse average inference: 90.69361659999994 ms
+Base+RemoveDropout average inference: 89.01585 ms
 ````
 
 ## Evaluation on a subset of a squad dataset
