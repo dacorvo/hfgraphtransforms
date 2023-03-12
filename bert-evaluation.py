@@ -3,8 +3,10 @@ import timeit
 import torch
 from transformers import AutoTokenizer, AutoModelForQuestionAnswering
 from transformers.utils.fx import symbolic_trace
-from optimum.fx.optimization.transformations import (MergeLinears, FuseBiasInLinear,
-                                                     ChangeTrueDivToMulByInverse)
+from optimum.fx.optimization.transformations import (MergeLinears,
+                                                     FuseBiasInLinear,
+                                                     ChangeTrueDivToMulByInverse,
+                                                     LintAndRecompile)
 from evaluate import evaluator
 from datasets import load_dataset
 
@@ -94,7 +96,7 @@ def main():
     model, tokenizer = setup_qa_model(model_path, args.device)
     question, text = "Which zelda game is my favorite?", "I cannot decide whether my favorite Zelda game is Ocarina of time or The Wind Waker."
     inputs = setup_qa_inputs(tokenizer, question, text, args.device)
-    transforms = [MergeLinears(), ChangeTrueDivToMulByInverse(), RemoveDropout()]
+    transforms = [LintAndRecompile(), MergeLinears(), ChangeTrueDivToMulByInverse(), RemoveDropout()]
     if args.infer:
         print(text)
         print(question)
