@@ -37,6 +37,7 @@ Base+LintAndRecompile average inference: 593.5082249999999 ms
 Base+MergeLinears average inference: 596.3989666 ms
 Base+ChangeTrueDivToMulByInverse average inference: 593.9272542000001 ms
 Base+RemoveDropout average inference: 591.5362708 ms
+Base+ComposeTransformation average inference: 595.0795458999997 ms
 ````
 
 ### Apple M1 Max - Metal Performance Shaders (MPS)
@@ -47,6 +48,7 @@ Base+LintAndRecompile average inference: 93.08724579999996 ms
 Base+MergeLinears average inference: 92.29938749999995 ms
 Base+ChangeTrueDivToMulByInverse average inference: 93.05135 ms
 Base+RemoveDropout average inference: 91.86703329999997 ms
+Base+ComposeTransformation average inference: 83.90547500000008 ms
 ````
 
 ## Evaluation on a subset of a squad dataset

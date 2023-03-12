@@ -6,7 +6,8 @@ from transformers.utils.fx import symbolic_trace
 from optimum.fx.optimization.transformations import (MergeLinears,
                                                      FuseBiasInLinear,
                                                      ChangeTrueDivToMulByInverse,
-                                                     LintAndRecompile)
+                                                     LintAndRecompile,
+                                                     compose)
 from evaluate import evaluator
 from datasets import load_dataset
 
@@ -97,6 +98,8 @@ def main():
     question, text = "Which zelda game is my favorite?", "I cannot decide whether my favorite Zelda game is Ocarina of time or The Wind Waker."
     inputs = setup_qa_inputs(tokenizer, question, text, args.device)
     transforms = [LintAndRecompile(), MergeLinears(), ChangeTrueDivToMulByInverse(), RemoveDropout()]
+    all_transforms = compose(*transforms)
+    transforms += [all_transforms]
     if args.infer:
         print(text)
         print(question)
