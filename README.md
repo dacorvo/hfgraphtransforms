@@ -1,8 +1,16 @@
 # Evaluating the effect of graph transformations on a BeRT model
 
-````
-Usage:
+## Setup
 
+````
+python -m venv hg
+source ./hg/bin/activate
+pip install -r requirements.txt
+````
+
+## Usage
+
+````
 usage: bert-evaluation.py [-h] [--device DEVICE] [--infer] [--evaluate]
                           [--transform]
 
@@ -26,6 +34,8 @@ Note: I could not apply the FuseBiasInLinear transform on the model due to a sha
 I think it happens in the score x value matmul, which is odd because my understanding is that Linear output
 shapes should not be impacted (only inputs and weights).
 I quickly checked the corresponding unit test in optimum and it is supposed to work out-of-the-box for Bert.
+
+An additional Transformation to remove Dropout layers is also added.
 
 ## Evaluation on a simple question
 
