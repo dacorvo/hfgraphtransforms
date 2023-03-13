@@ -3,6 +3,7 @@ import timeit
 import torch
 from transformers import AutoTokenizer, AutoModelForQuestionAnswering
 from transformers.utils.fx import symbolic_trace
+from transformers.pipelines import QuestionAnsweringPipeline
 from optimum.fx.optimization.transformations import (MergeLinears,
                                                      FuseBiasInLinear,
                                                      ChangeTrueDivToMulByInverse,
@@ -68,7 +69,7 @@ def evaluate_squad_qa_model(model, tokenizer, data, device):
         data=data,
         metric="squad_v2",
         squad_v2_format=True,
-        device=torch.device(device)
+        device=device
     )
 
 
@@ -122,11 +123,14 @@ def main():
             result += f", latency = {results['latency_in_seconds'] * 1000:.4f} ms"
             return result
         if args.transform:
-            # Unfortunately I could make it work because evaluate does not accept the GraphModule
-            #for transform in [None] + transforms:
-            for transform in [None]:
-                new_model = model if transform is None else transform_model(model, transform).graph
-                results = evaluate_squad_qa_model(new_model, tokenizer, data, args.device)
+            for transform in [None] + transforms:
+                if transform is None:
+                    results = evaluate_squad_qa_model(model, tokenizer, data, args.device)
+                else:
+                    device = torch.device('mps') if args.device == 'mps' else None
+                    new_model = transform_model(model, transform)
+                    pipeline = QuestionAnsweringPipeline(new_model, tokenizer, task='question-answering', device=args.device)
+                    results = evaluate_squad_qa_model(pipeline, tokenizer, data, device)
                 prefix = "Base" if transform is None else f"Base+{transform.__class__.__name__}"
                 print(f"{prefix} : {summary(results)}")
 

@@ -66,7 +66,12 @@ Base+ComposeTransformation average inference: 83.90547500000008 ms
 ### Apple M1 Max - CPU - 10 samples
 
 ````
-Base : f1 = 30.00, samples/s = 0.3931, latency = 2543.8110 ms
+Base : f1 = 30.00, samples/s = 0.3959, latency = 2525.9091 ms
+Base+LintAndRecompile : f1 = 30.00, samples/s = 0.3963, latency = 2523.5268 ms
+Base+MergeLinears : f1 = 30.00, samples/s = 0.3949, latency = 2532.4383 ms
+Base+ChangeTrueDivToMulByInverse : f1 = 30.00, samples/s = 0.3959, latency = 2525.6471 ms
+Base+RemoveDropout : f1 = 30.00, samples/s = 0.3954, latency = 2528.7776 ms
+Base+ComposeTransformation : f1 = 30.00, samples/s = 0.3944, latency = 2535.2992 ms
 ````
 
 ### Apple M1 Max - Metal Performance Shaders (MPS) - 100 samples
