@@ -85,3 +85,16 @@ Base+RemoveDropout : f1 = 43.89, samples/s = 10.1788, latency = 98.2434 ms
 Base+ComposeTransformation : f1 = 43.89, samples/s = 10.8458, latency = 92.2019 ms
 ````
 
+### Apple M1 Max - Metal Performance Shaders (MPS) - 1000 samples
+
+````
+Base : f1 = 45.59, samples/s = 10.2672, latency = 97.3979 ms
+Base+LintAndRecompile : f1 = 45.59, samples/s = 10.3077, latency = 97.0146 ms
+Base+MergeLinears : f1 = 45.59, samples/s = 8.6649, latency = 115.4085 ms
+Base+ChangeTrueDivToMulByInverse : f1 = 45.59, samples/s = 9.7583, latency = 102.4771 ms
+Base+RemoveDropout : f1 = 45.59, samples/s = 10.1991, latency = 98.0478 ms
+Base+ComposeTransformation : f1 = 45.59, samples/s = 10.8363, latency = 92.2825 ms
+````
+
+
+
