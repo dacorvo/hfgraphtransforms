@@ -57,20 +57,23 @@ def evaluate_squad_qa_model(model, tokenizer, data, device):
         model (`PreTrainedModel`): the model to evaluate.
         tokenizer (`Tokenizer`): the model tokenizer.
         data (obj:`Dataset`): the squad_v2 dataset.
-        device (`str`): a string describing the target device.
+        device (`Device`): a torch device.
 
     Returns:
         a dict of results
     """
     task_evaluator = evaluator("question-answering")
-    return task_evaluator.compute(
-        model_or_pipeline=model,
+    # Wrap the model in a pipe otherwise evaluate will reject it
+    pipeline = QuestionAnsweringPipeline(model, tokenizer, task='question-answering', device=device)
+    result = task_evaluator.compute(
+        model_or_pipeline=pipeline,
         tokenizer=tokenizer,
         data=data,
         metric="squad_v2",
         squad_v2_format=True,
-        device=device
+        device=device if device is None else device.index
     )
+    return result
 
 
 def setup_squad_data(n_samples):
@@ -113,9 +116,10 @@ def main():
                 prefix = "Base" if transform is None else f"Base+{transform.__class__.__name__}"
                 print(f"{prefix} average inference: {t*1000} ms")
     if args.evaluate:
+        device = torch.device('mps', 0) if args.device == 'mps' else None
         n_samples = 100 if args.device == 'mps' else 10
         data = setup_squad_data(n_samples)
-        results = evaluate_squad_qa_model(model, tokenizer, data, args.device)
+        results = evaluate_squad_qa_model(model, tokenizer, data, device)
         print(f"f1 = {results['f1']:.2f}")
         def summary(results):
             result = f"f1 = {results['f1']:.2f}"
@@ -125,12 +129,11 @@ def main():
         if args.transform:
             for transform in [None] + transforms:
                 if transform is None:
-                    results = evaluate_squad_qa_model(model, tokenizer, data, args.device)
+                    results = evaluate_squad_qa_model(model, tokenizer, data, device)
                 else:
-                    device = torch.device('mps') if args.device == 'mps' else None
+                    # Transform model
                     new_model = transform_model(model, transform)
-                    pipeline = QuestionAnsweringPipeline(new_model, tokenizer, task='question-answering', device=args.device)
-                    results = evaluate_squad_qa_model(pipeline, tokenizer, data, device)
+                    results = evaluate_squad_qa_model(new_model, tokenizer, data, device)
                 prefix = "Base" if transform is None else f"Base+{transform.__class__.__name__}"
                 print(f"{prefix} : {summary(results)}")
 
