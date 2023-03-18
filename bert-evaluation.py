@@ -96,7 +96,7 @@ def main():
     args = parser.parse_args()
     model_path = "bert-large-uncased-whole-word-masking-finetuned-squad"
     model, tokenizer = setup_qa_model(model_path, args.device)
-    question, text = "Which zelda game is my favorite?", "I cannot decide whether my favorite Zelda game is Ocarina of time or The Wind Waker."
+    question, text = "Which zelda game is my favorite?", "I cannot decide whether my favorite Zelda game is Ocarina of time, Twilight Princess or Breath of the Wild."
     inputs = setup_qa_inputs(tokenizer, question, text, args.device)
     transforms = [LintAndRecompile(), MergeLinears(), ChangeTrueDivToMulByInverse(), RemoveDropout()]
     all_transforms = compose(*transforms)
