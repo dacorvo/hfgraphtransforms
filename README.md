@@ -39,7 +39,7 @@ An additional Transformation to remove Dropout layers is also added.
 
 ## Evaluation on a simple question
 
-### Apple M1 Max - CPU
+### Apple M1 Max - pytorch 1.31.1 - CPU
 
 ````
 Base average inference: 597.0487041999999 ms
@@ -50,7 +50,7 @@ Base+RemoveDropout average inference: 591.5362708 ms
 Base+ComposeTransformation average inference: 595.0795458999997 ms
 ````
 
-### Apple M1 Max - Metal Performance Shaders (MPS)
+### Apple M1 Max - pytorch 1.13.1 - Metal Performance Shaders (MPS)
 
 ````
 Base average inference: 93.70445829999996 ms
@@ -61,9 +61,31 @@ Base+RemoveDropout average inference: 91.86703329999997 ms
 Base+ComposeTransformation average inference: 83.90547500000008 ms
 ````
 
+### Apple M1 Max - pytorch 2.1.0a0+gitec3894e + SEELF - CPU
+
+````
+Base average inference: 104.6668875 ms
+Base+LintAndRecompile average inference: 103.52200420000005 ms
+Base+MergeLinears average inference: 90.44809999999997 ms
+Base+ChangeTrueDivToMulByInverse average inference: 102.8573583 ms
+Base+RemoveDropout average inference: 103.28010000000009 ms
+Base+ComposeTransformation average inference: 89.82156670000005 ms
+````
+
+### Apple M1 Max - pytorch 2.1.0a0+gitec3894e + SEELF - Metal Performance Shaders (MPS)
+
+````
+Base average inference: 31.323462500000065 ms
+Base+LintAndRecompile average inference: 31.18443339999999 ms
+Base+MergeLinears average inference: 28.317558300000023 ms
+Base+ChangeTrueDivToMulByInverse average inference: 32.83145830000001 ms
+Base+RemoveDropout average inference: 29.854908300000016 ms
+Base+ComposeTransformation average inference: 27.32291250000003 ms
+````
+
 ## Evaluation on a subset of a squad dataset
 
-### Apple M1 Max - CPU - 10 samples
+### Apple M1 Max - pytorch 1.13.1 - CPU - 10 samples
 
 ````
 Base : f1 = 30.00, samples/s = 0.3959, latency = 2525.9091 ms
@@ -74,7 +96,7 @@ Base+RemoveDropout : f1 = 30.00, samples/s = 0.3954, latency = 2528.7776 ms
 Base+ComposeTransformation : f1 = 30.00, samples/s = 0.3944, latency = 2535.2992 ms
 ````
 
-### Apple M1 Max - Metal Performance Shaders (MPS) - 100 samples
+### Apple M1 Max - pytorch 1.13.1 - Metal Performance Shaders (MPS) - 100 samples
 
 ````
 Base : f1 = 43.89, samples/s = 10.0389, latency = 99.6123 ms
@@ -85,7 +107,7 @@ Base+RemoveDropout : f1 = 43.89, samples/s = 10.1788, latency = 98.2434 ms
 Base+ComposeTransformation : f1 = 43.89, samples/s = 10.8458, latency = 92.2019 ms
 ````
 
-### Apple M1 Max - Metal Performance Shaders (MPS) - 1000 samples
+### Apple M1 Max - pytorch 1.13.1 - Metal Performance Shaders (MPS) - 1000 samples
 
 ````
 Base : f1 = 45.59, samples/s = 10.2672, latency = 97.3979 ms
@@ -94,6 +116,28 @@ Base+MergeLinears : f1 = 45.59, samples/s = 8.6649, latency = 115.4085 ms
 Base+ChangeTrueDivToMulByInverse : f1 = 45.59, samples/s = 9.7583, latency = 102.4771 ms
 Base+RemoveDropout : f1 = 45.59, samples/s = 10.1991, latency = 98.0478 ms
 Base+ComposeTransformation : f1 = 45.59, samples/s = 10.8363, latency = 92.2825 ms
+````
+
+### Apple M1 Max - pytorch 2.1.0a0+gitec3894e + SEELF - CPU
+
+````
+Base : f1 = 30.00, samples/s = 5.2294, latency = 191.2265 ms
+Base+LintAndRecompile : f1 = 30.00, samples/s = 5.2172, latency = 191.6719 ms
+Base+MergeLinears : f1 = 30.00, samples/s = 5.5387, latency = 180.5486 ms
+Base+ChangeTrueDivToMulByInverse : f1 = 30.00, samples/s = 5.2830, latency = 189.2865 ms
+Base+RemoveDropout : f1 = 30.00, samples/s = 5.2820, latency = 189.3220 ms
+Base+ComposeTransformation : f1 = 30.00, samples/s = 5.5599, latency = 179.8609 ms
+````
+
+### Apple M1 Max - pytorch 2.1.0a0+gitec3894e + SEELF - Metal Performance Shaders (MPS) - 100 samples
+
+````
+Base : f1 = 43.89, samples/s = 22.2120, latency = 45.0206 ms
+Base+LintAndRecompile : f1 = 43.89, samples/s = 22.1101, latency = 45.2283 ms
+Base+MergeLinears : f1 = 43.89, samples/s = 19.9722, latency = 50.0696 ms
+Base+ChangeTrueDivToMulByInverse : f1 = 43.89, samples/s = 19.7460, latency = 50.6432 ms
+Base+RemoveDropout : f1 = 43.89, samples/s = 22.1085, latency = 45.2315 ms
+Base+ComposeTransformation : f1 = 43.89, samples/s = 22.2645, latency = 44.9146 ms
 ````
 
 
