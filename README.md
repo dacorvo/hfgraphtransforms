@@ -61,6 +61,17 @@ Base+RemoveDropout average inference: 91.86703329999997 ms
 Base+ComposeTransformation average inference: 83.90547500000008 ms
 ````
 
+### Apple M1 Max - pytorch 2.1.0a0+gitec3894e - CPU
+
+````
+Base average inference: 107.75942089999998 ms
+Base+LintAndRecompile average inference: 107.88847500000003 ms
+Base+MergeLinears average inference: 96.59027919999997 ms
+Base+ChangeTrueDivToMulByInverse average inference: 107.4367917 ms
+Base+RemoveDropout average inference: 106.66231249999996 ms
+Base+ComposeTransformation average inference: 96.183875 ms
+````
+
 ### Apple M1 Max - pytorch 2.1.0a0+gitec3894e + SEELF - CPU
 
 ````
